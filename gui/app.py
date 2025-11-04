@@ -40,7 +40,7 @@ class RetroROMCleanerGUI(ctk.CTk):
         self.language_manager = LanguageManager()
 
         # Завантаження конфігурації
-        self.cfg = self.settings_manager.load_config()
+        self.cfg = self.settings_manager.config
 
         # Налаштування мови
         self.lang_code = self.cfg.get("LANGUAGE", "en")
@@ -72,7 +72,7 @@ class RetroROMCleanerGUI(ctk.CTk):
 
     def create_tab_find(self):
         """Створення вкладки пошуку дублікатів"""
-        self.tab_find_frame = TabFind(self.tab_find, self.lang, self.cfg)
+        self.tab_find_frame = TabFind(self.tab_find, self.lang, self.settings_manager)
         self.tab_find_frame.pack(fill="both", expand=True)
 
     def create_tab_delete(self):
@@ -116,8 +116,7 @@ class RetroROMCleanerGUI(ctk.CTk):
         """Тестова дія"""
         # Тепер лог знаходиться в tab_find_frame
         if hasattr(self, 'tab_find_frame'):
-            self.tab_find_frame.logbox.insert("end", "[INFO] Placeholder action executed.\n")
-            self.tab_find_frame.logbox.see("end")
+            self.tab_find_frame._log("[INFO] Placeholder action executed.")
 
     def change_language(self, lang_code: str):
         """Зміна мови інтерфейсу
@@ -153,8 +152,7 @@ class RetroROMCleanerGUI(ctk.CTk):
 
         # Логуємо в tab_find_frame
         if hasattr(self, 'tab_find_frame'):
-            self.tab_find_frame.logbox.insert("end", "[INFO] Settings saved.\n")
-            self.tab_find_frame.logbox.see("end")
+            self.tab_find_frame._log("[INFO] Settings saved.")
 
     def restore_defaults(self):
         """Відновлення налаштувань за замовчуванням"""
@@ -162,6 +160,5 @@ class RetroROMCleanerGUI(ctk.CTk):
 
         # Логуємо в tab_find_frame
         if hasattr(self, 'tab_find_frame'):
-            self.tab_find_frame.logbox.insert("end", "[INFO] Defaults restored. Restart app.\n")
-            self.tab_find_frame.logbox.see("end")
+            self.tab_find_frame._log("[INFO] Defaults restored. Restart app.")
 

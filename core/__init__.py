@@ -1,15 +1,13 @@
-from .finder import DuplicateFinder
+from .finder import Finder
 from .remover import FileRemover
 from .renamer import FileRenamer
-from .utils import FileUtils
 from .settings_manager import SettingsManager
 from .i18n import LanguageManager
 
 __all__ = [
-    "DuplicateFinder",
+    "Finder",
     "FileRemover",
     "FileRenamer",
-    "FileUtils",
     "SettingsManager",
     "LanguageManager",
 ]

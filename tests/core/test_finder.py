@@ -1,5 +1,5 @@
 """
-Тести для DuplicateFinder.
+Тести для Finder.
 """
 
 # Built-in imports
@@ -9,15 +9,15 @@ from unittest.mock import patch, MagicMock
 import pytest
 
 # Project imports
-from core.finder import DuplicateFinder
+from core.finder import Finder
 
 
-class TestDuplicateFinder:
-    """Тестування класу DuplicateFinder"""
+class TestFinder:
+    """Тестування класу Finder"""
 
     def test_init_default_values(self):
         """Тест ініціалізації з значеннями за замовчуванням"""
-        finder = DuplicateFinder("/test/roms")
+        finder = Finder(cfg={"ROMS_DIR": "/test/roms", "IGNORE_CASE": True, "USE_HASH": True})
 
         assert finder.roms_dir == "/test/roms"
         assert finder.ignore_case is True
@@ -25,7 +25,7 @@ class TestDuplicateFinder:
 
     def test_init_custom_values(self):
         """Тест ініціалізації з власними значеннями"""
-        finder = DuplicateFinder("/custom/roms", ignore_case=False, use_hash=False)
+        finder = Finder(cfg={"ROMS_DIR": "/custom/roms", "IGNORE_CASE": False, "USE_HASH": False})
 
         assert finder.roms_dir == "/custom/roms"
         assert finder.ignore_case is False
@@ -33,10 +33,10 @@ class TestDuplicateFinder:
 
     def test_init_with_none_dir(self):
         """Тест ініціалізації з None директорією"""
-        finder = DuplicateFinder(None)
+        finder = Finder(cfg={"ROMS_DIR": None, "IGNORE_CASE": True, "USE_HASH": True})
         assert finder.roms_dir is None
 
     def test_init_with_empty_dir(self):
         """Тест ініціалізації з пустою директорією"""
-        finder = DuplicateFinder("")
+        finder = Finder(cfg={"ROMS_DIR": "", "IGNORE_CASE": True, "USE_HASH": True})
         assert finder.roms_dir == ""

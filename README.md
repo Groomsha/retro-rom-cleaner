@@ -52,14 +52,20 @@ retro-rom-cleaner/
 │
 ├── config.json           # Збережені налаштування користувача
 ├── config.py             # Завантаження / оновлення конфігурацій
+├── .gitignore            # Файли які ігноруються Git
 │
 ├── core/
 │   ├── finder.py         # Пошук дублікатів
 │   ├── remover.py        # Видалення файлів
 │   ├── renamer.py        # Перейменування файлів
-│   ├── utils.py          # Хелпери (MD5, логування, нормалізація)
 │   ├── settings_manager.py # Робота з JSON
 │   └── i18n.py           # Інтернаціоналізація (мови)
+│
+├── utils/                # Утилітарні функції
+│   ├── __init__.py       # Імпорти класів
+│   ├── file_operations.py # Операції з файлами
+│   ├── hash_operations.py # Операції з хешуванням
+│   └── log_operations.py  # Операції з логуванням
 │
 ├── gui/
 │   ├── app.py                  # Головний клас RetroROMCleanerGUI
@@ -86,6 +92,7 @@ retro-rom-cleaner/
 │       ├── test_tab_delete.py
 │       └── test_tab_rename.py
 │
+├── logs/                 # Логи (ігноруються Git)
 ├── main.py               # Точка входу (CLI + GUI)
 ├── requirements.txt      # Залежності Python
 └── LICENSE               # Ліцензія Apache-2.0

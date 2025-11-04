@@ -32,6 +32,7 @@ class SettingsManager:
         """Ініціалізація менеджера налаштувань"""
 
         self.config_file = config_file
+        self.config = self.load_config()
 
     def load_config(self) -> Dict[str, Any]:
         """Завантаження конфігурації з файлу"""

@@ -1,6 +1,6 @@
 {
-    "ROMS_DIR": "",
-    "IMGS_DIR": "",
+    "ROMS_DIR": "D:/Working Sources/TRIMUI Smart Pro/ROMS",
+    "IMGS_DIR": "D:/Working Sources/TRIMUI Smart Pro/Imgs",
     "IGNORE_CASE": true,
     "USE_HASH": true,
     "LANGUAGE": "uk",
