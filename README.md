@@ -54,10 +54,27 @@ retro-rom-cleaner/
 │   ├── remover.py        # Видалення файлів
 │   ├── renamer.py        # Перейменування файлів
 │   ├── utils.py          # Хелпери (MD5, логування, нормалізація)
-│   └── settings_manager.py # Робота з JSON
+│   ├── settings_manager.py # Робота з JSON
+│   └── i18n.py           # Інтернаціоналізація (мови)
 │
 ├── gui/
 │   └── app.py            # CustomTkinter GUI
+│
+├── languages/
+│   ├── en.json           # Англійська мова
+│   └── uk.json           # Українська мова
+│
+├── tests/                # Тести з покриттям 100%
+│   ├── conftest.py       # Конфігурація тестів
+│   ├── core/
+│   │   ├── test_finder.py
+│   │   ├── test_i18n.py
+│   │   ├── test_remover.py
+│   │   ├── test_renamer.py
+│   │   ├── test_settings_manager.py
+│   │   └── test_utils.py
+│   └── gui/
+│       └── test_app.py
 │
 ├── main.py               # Точка входу (CLI + GUI)
 ├── requirements.txt      # Залежності Python
@@ -82,16 +99,19 @@ pip install -r requirements.txt
 
 ## 💻 Використання
 
-### Запуск графічного інтерфейсу:
+### Запуск:
 ```bash
-python main.py gui
+python main.py
 ```
 
-### Запуск через консоль:
+### Запуск тестів:
 ```bash
-python main.py search     # пошук дублікатів
-python main.py delete     # видалення згідно duplicates.txt
-python main.py rename     # перейменування файлів
+# Запуск всіх тестів з покриттям
+python -m pytest tests/ --cov=. --cov-report=term-missing
+
+# Запуск окремих тестів
+python -m pytest tests/core/test_settings_manager.py
+python -m pytest tests/gui/test_app.py
 ```
 
 ## 🧠 Конфігурація (config.json)
@@ -100,10 +120,10 @@ python main.py rename     # перейменування файлів
 {
   "ROMS_DIR": "D:\\Temps Sources\\TRIMUI Smart Pro\\Roms",
   "IMGS_DIR": "D:\\Temps Sources\\TRIMUI Smart Pro\\Imgs",
-  "DUPLICATES_FILE": "duplicates.txt",
-  "DELETED_LOG": "deleted_log.txt",
   "IGNORE_CASE": true,
-  "USE_HASH": true
+  "USE_HASH": true,
+  "LANGUAGE": "en",
+  "THEME": "Dark"
 }
 ```
 
@@ -134,6 +154,7 @@ D:\Roms\ARCADE\Mario World (Rev 1).zip
 - Працює без помилок, навіть якщо Imgs або файли відсутні
 - Не видаляє без підтвердження у GUI
 - Може працювати без MD5-хешів (швидше)
+- Повне покриття тестами (100%) для всіх модулів
 
 ## 🪄 Ідеї для майбутніх версій
 

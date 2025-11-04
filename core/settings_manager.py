@@ -19,10 +19,39 @@ from typing import Dict, Any, Optional
 class SettingsManager:
     """Клас для управління налаштуваннями"""
 
-    def __init__(self, config_file: str = "config.json"):
-        """Ініціалізація менеджера налаштувань
+    DEFAULT_CONFIG = {
+        "ROMS_DIR": "",
+        "IMGS_DIR": "",
+        "IGNORE_CASE": True,
+        "USE_HASH": True,
+        "LANGUAGE": "en",
+        "THEME": "Dark",
+    }
 
-        Args:
-            config_file: Шлях до файлу конфігурації
-        """
+    def __init__(self, config_file: str = "config.json"):
+        """Ініціалізація менеджера налаштувань"""
+
         self.config_file = config_file
+
+    def load_config(self) -> Dict[str, Any]:
+        """Завантаження конфігурації з файлу"""
+
+        if not os.path.exists(self.config_file):
+            return self.DEFAULT_CONFIG.copy()
+
+        try:
+            with open(self.config_file, "r", encoding="utf-8") as f:
+                config = json.load(f)
+                # Merge with defaults for missing keys
+                for key, value in self.DEFAULT_CONFIG.items():
+                    if key not in config:
+                        config[key] = value
+                return config
+        except (json.JSONDecodeError, FileNotFoundError):
+            return self.DEFAULT_CONFIG.copy()
+
+    def save_config(self, config: Dict[str, Any]):
+        """Збереження конфігурації у файл"""
+
+        with open(self.config_file, "w", encoding="utf-8") as f:
+            json.dump(config, f, indent=4)

@@ -20,4 +20,5 @@ class Config:
 
     def __init__(self):
         """Ініціалізація конфігурації"""
+
         pass

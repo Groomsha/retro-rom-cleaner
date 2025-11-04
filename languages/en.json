@@ -1,0 +1,20 @@
+{
+  "title": "RetroROMCleaner",
+  "find_tab": "Find Duplicates",
+  "delete_tab": "Delete Files",
+  "rename_tab": "Rename Files",
+  "settings_tab": "Settings",
+  "roms_dir": "ROMs Directory:",
+  "imgs_dir": "Images Directory:",
+  "browse": "Browse...",
+  "ignore_case": "Ignore case",
+  "use_md5": "Use MD5 checksum",
+  "save_auto": "Save settings automatically",
+  "save": "Save Settings",
+  "restore": "Restore Defaults",
+  "language": "Language:",
+  "theme": "Theme:",
+  "start": "Start",
+  "stop": "Stop",
+  "log": "Log:"
+}

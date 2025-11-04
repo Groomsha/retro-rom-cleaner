@@ -3,6 +3,7 @@ from .remover import FileRemover
 from .renamer import FileRenamer
 from .utils import FileUtils
 from .settings_manager import SettingsManager
+from .i18n import LanguageManager
 
 __all__ = [
     "DuplicateFinder",
@@ -10,4 +11,5 @@ __all__ = [
     "FileRenamer",
     "FileUtils",
     "SettingsManager",
+    "LanguageManager",
 ]

@@ -23,4 +23,5 @@ class FileUtils:
 
     def __init__(self):
         """Ініціалізація утилітарного класу"""
+
         pass

@@ -20,13 +20,8 @@ class DuplicateFinder:
     """Клас для пошуку дублікатів ROM-файлів"""
 
     def __init__(self, roms_dir: str, ignore_case: bool = True, use_hash: bool = True):
-        """Ініціалізація пошукача дублікатів
+        """Ініціалізація пошукача дублікатів"""
 
-        Args:
-            roms_dir: Шлях до директорії з ROM-файлами
-            ignore_case: Ігнорувати регістр при порівнянні
-            use_hash: Використовувати MD5-хеш для порівняння
-        """
         self.roms_dir = roms_dir
         self.ignore_case = ignore_case
         self.use_hash = use_hash
