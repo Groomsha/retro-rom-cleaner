@@ -1,3 +1,7 @@
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)]()
+[![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)]()
+[![GUI](https://img.shields.io/badge/GUI-CustomTkinter-00AEEF.svg)]()
+
 # 🎮 RetroROMCleaner
 
 **RetroROMCleaner** — це інструмент для пошуку, видалення та перейменування дублікатів ROM-файлів у великих колекціях ретро-ігор.  
@@ -58,7 +62,10 @@ retro-rom-cleaner/
 │   └── i18n.py           # Інтернаціоналізація (мови)
 │
 ├── gui/
-│   └── app.py            # CustomTkinter GUI
+│   ├── app.py                  # Головний клас RetroROMCleanerGUI
+│   ├── tab_find.py             # Вкладка "Find Duplicates"
+│   ├── tab_delete.py           # Вкладка "Delete Files"
+│   └── tab_rename.py           # Вкладка "Rename Files"
 │
 ├── languages/
 │   ├── en.json           # Англійська мова
@@ -74,7 +81,10 @@ retro-rom-cleaner/
 │   │   ├── test_settings_manager.py
 │   │   └── test_utils.py
 │   └── gui/
-│       └── test_app.py
+│       ├── test_app.py
+│       ├── test_tab_find.py
+│       ├── test_tab_delete.py
+│       └── test_tab_rename.py
 │
 ├── main.py               # Точка входу (CLI + GUI)
 ├── requirements.txt      # Залежності Python
@@ -87,7 +97,7 @@ retro-rom-cleaner/
 
 ### 1. Клонування репозиторію
 ```bash
-git clone https://github.com/yourusername/retro-rom-cleaner.git
+git clone https://github.com/Groomsha/retro-rom-cleaner.git
 cd retro-rom-cleaner
 ```
 

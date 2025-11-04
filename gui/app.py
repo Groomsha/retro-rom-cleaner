@@ -19,6 +19,9 @@ import customtkinter as ctk
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from core.settings_manager import SettingsManager
 from core.i18n import LanguageManager
+from gui.tab_find import TabFind
+from gui.tab_delete import TabDelete
+from gui.tab_rename import TabRename
 
 
 class RetroROMCleanerGUI(ctk.CTk):
@@ -69,56 +72,18 @@ class RetroROMCleanerGUI(ctk.CTk):
 
     def create_tab_find(self):
         """Створення вкладки пошуку дублікатів"""
-        t = self.tab_find
-
-        # Папки
-        frame_dirs = ctk.CTkFrame(t)
-        frame_dirs.pack(fill="x", padx=10, pady=10)
-
-        ctk.CTkLabel(frame_dirs, text=self.lang["roms_dir"]).grid(row=0, column=0, sticky="w")
-        self.roms_entry = ctk.CTkEntry(frame_dirs, width=500)
-        self.roms_entry.insert(0, self.cfg.get("ROMS_DIR", ""))
-        self.roms_entry.grid(row=0, column=1, padx=5)
-        ctk.CTkButton(frame_dirs, text=self.lang["browse"], command=lambda: self.select_folder(self.roms_entry)).grid(row=0, column=2, padx=5)
-
-        ctk.CTkLabel(frame_dirs, text=self.lang["imgs_dir"]).grid(row=1, column=0, sticky="w")
-        self.imgs_entry = ctk.CTkEntry(frame_dirs, width=500)
-        self.imgs_entry.insert(0, self.cfg.get("IMGS_DIR", ""))
-        self.imgs_entry.grid(row=1, column=1, padx=5)
-        ctk.CTkButton(frame_dirs, text=self.lang["browse"], command=lambda: self.select_folder(self.imgs_entry)).grid(row=1, column=2, padx=5)
-
-        # Опції
-        frame_opts = ctk.CTkFrame(t)
-        frame_opts.pack(fill="x", padx=10, pady=5)
-        self.var_ignore = ctk.BooleanVar(value=self.cfg.get("IGNORE_CASE", True))
-        self.var_md5 = ctk.BooleanVar(value=self.cfg.get("USE_HASH", True))
-
-        ctk.CTkCheckBox(frame_opts, text=self.lang["ignore_case"], variable=self.var_ignore).pack(side="left", padx=10)
-        ctk.CTkCheckBox(frame_opts, text=self.lang["use_md5"], variable=self.var_md5).pack(side="left", padx=10)
-
-        # Кнопки
-        frame_btns = ctk.CTkFrame(t)
-        frame_btns.pack(fill="x", padx=10, pady=5)
-        ctk.CTkButton(frame_btns, text=self.lang["start"], command=self.dummy_action).pack(side="left", padx=10)
-        ctk.CTkButton(frame_btns, text=self.lang["stop"], command=self.dummy_action).pack(side="left")
-
-        # Лог
-        frame_log = ctk.CTkFrame(t)
-        frame_log.pack(fill="both", expand=True, padx=10, pady=10)
-        ctk.CTkLabel(frame_log, text=self.lang["log"]).pack(anchor="w")
-        self.logbox = ctk.CTkTextbox(frame_log, height=200)
-        self.logbox.pack(fill="both", expand=True)
-        self.progress = ctk.CTkProgressBar(frame_log)
-        self.progress.pack(fill="x", pady=5)
-        self.progress.set(0)
+        self.tab_find_frame = TabFind(self.tab_find, self.lang, self.cfg)
+        self.tab_find_frame.pack(fill="both", expand=True)
 
     def create_tab_delete(self):
         """Створення вкладки видалення файлів"""
-        pass
+        self.tab_delete_frame = TabDelete(self.tab_delete, self.lang)
+        self.tab_delete_frame.pack(fill="both", expand=True)
 
     def create_tab_rename(self):
         """Створення вкладки перейменування файлів"""
-        pass
+        self.tab_rename_frame = TabRename(self.tab_rename, self.lang)
+        self.tab_rename_frame.pack(fill="both", expand=True)
 
     def create_tab_settings(self):
         """Створення вкладки налаштувань"""
@@ -149,8 +114,10 @@ class RetroROMCleanerGUI(ctk.CTk):
 
     def dummy_action(self):
         """Тестова дія"""
-        self.logbox.insert("end", "[INFO] Placeholder action executed.\n")
-        self.logbox.see("end")
+        # Тепер лог знаходиться в tab_find_frame
+        if hasattr(self, 'tab_find_frame'):
+            self.tab_find_frame.logbox.insert("end", "[INFO] Placeholder action executed.\n")
+            self.tab_find_frame.logbox.see("end")
 
     def change_language(self, lang_code: str):
         """Зміна мови інтерфейсу
@@ -175,19 +142,26 @@ class RetroROMCleanerGUI(ctk.CTk):
 
     def save_current_settings(self):
         """Збереження поточних налаштувань"""
-        self.cfg["ROMS_DIR"] = self.roms_entry.get()
-        self.cfg["IMGS_DIR"] = self.imgs_entry.get()
-        self.cfg["IGNORE_CASE"] = self.var_ignore.get()
-        self.cfg["USE_HASH"] = self.var_md5.get()
+        # Отримуємо значення з tab_find_frame
+        if hasattr(self, 'tab_find_frame'):
+            self.cfg["ROMS_DIR"] = self.tab_find_frame.roms_entry.get()
+            self.cfg["IMGS_DIR"] = self.tab_find_frame.imgs_entry.get()
+            self.cfg["IGNORE_CASE"] = self.tab_find_frame.var_ignore.get()
+            self.cfg["USE_HASH"] = self.tab_find_frame.var_md5.get()
+
         self.settings_manager.save_config(self.cfg)
-        if hasattr(self, 'logbox'):
-            self.logbox.insert("end", "[INFO] Settings saved.\n")
-            self.logbox.see("end")
+
+        # Логуємо в tab_find_frame
+        if hasattr(self, 'tab_find_frame'):
+            self.tab_find_frame.logbox.insert("end", "[INFO] Settings saved.\n")
+            self.tab_find_frame.logbox.see("end")
 
     def restore_defaults(self):
         """Відновлення налаштувань за замовчуванням"""
         self.settings_manager.save_config(self.settings_manager.DEFAULT_CONFIG)
-        if hasattr(self, 'logbox'):
-            self.logbox.insert("end", "[INFO] Defaults restored. Restart app.\n")
-            self.logbox.see("end")
+
+        # Логуємо в tab_find_frame
+        if hasattr(self, 'tab_find_frame'):
+            self.tab_find_frame.logbox.insert("end", "[INFO] Defaults restored. Restart app.\n")
+            self.tab_find_frame.logbox.see("end")
 
